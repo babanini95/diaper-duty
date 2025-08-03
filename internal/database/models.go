@@ -12,7 +12,7 @@ type Change struct {
 	ID         int64
 	CreatedAt  sql.NullTime
 	UpdatedAt  sql.NullTime
-	ChangeTime sql.NullTime
+	ChangeTime string
 	Notes      sql.NullString
 }
 

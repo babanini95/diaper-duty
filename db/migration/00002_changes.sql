@@ -1,12 +1,11 @@
 -- +goose Up
-CREATE TABLE profiles (
+CREATE TABLE changes (
     id INTEGER PRIMARY KEY,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    baby_name TEXT NOT NULL,
-    baby_birthday TEXT NOT NULL,
-    diaper_interval_minutes INTEGER
+    change_time TEXT NOT NULL,
+    notes TEXT
 );
 
 -- +goose Down
-DROP TABLE profiles;
+DROP TABLE changes;
