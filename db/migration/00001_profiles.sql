@@ -1,8 +1,8 @@
 -- +goose Up
 CREATE TABLE profiles (
     id INTEGER PRIMARY KEY,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     baby_name TEXT NOT NULL,
     baby_birthday TEXT NOT NULL,
     diaper_interval_minutes INTEGER
@@ -10,9 +10,9 @@ CREATE TABLE profiles (
 
 CREATE TABLE changes (
     id INTEGER PRIMARY KEY,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
-    change_time TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    change_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     notes TEXT
 );
 
