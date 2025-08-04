@@ -24,8 +24,7 @@ var logCmd = &cobra.Command{
 		now := time.Now()
 
 		if timeFlag != "" {
-			layout := "3:15PM"
-			parsedTime, err := time.Parse(layout, timeFlag)
+			parsedTime, err := time.Parse(time.Kitchen, timeFlag)
 			if err != nil {
 				log.Fatalln("Wrong time format")
 			}
