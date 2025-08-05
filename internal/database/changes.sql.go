@@ -10,6 +10,26 @@ import (
 	"database/sql"
 )
 
+const getTheLastChange = `-- name: GetTheLastChange :one
+SELECT id, created_at, updated_at, change_time, notes
+FROM changes
+ORDER BY id DESC
+LIMIT 1
+`
+
+func (q *Queries) GetTheLastChange(ctx context.Context) (Change, error) {
+	row := q.db.QueryRowContext(ctx, getTheLastChange)
+	var i Change
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.ChangeTime,
+		&i.Notes,
+	)
+	return i, err
+}
+
 const insertDiaperChange = `-- name: InsertDiaperChange :one
 INSERT INTO changes (change_time, notes)
 VALUES (?, ?)

@@ -45,3 +45,23 @@ func (q *Queries) CreateProfile(ctx context.Context, arg CreateProfileParams) (P
 	)
 	return i, err
 }
+
+const getProfile = `-- name: GetProfile :one
+SELECT id, created_at, updated_at, baby_name, baby_birthday, diaper_interval_minutes
+FROM profiles
+LIMIT 1
+`
+
+func (q *Queries) GetProfile(ctx context.Context) (Profile, error) {
+	row := q.db.QueryRowContext(ctx, getProfile)
+	var i Profile
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.BabyName,
+		&i.BabyBirthday,
+		&i.DiaperIntervalMinutes,
+	)
+	return i, err
+}
