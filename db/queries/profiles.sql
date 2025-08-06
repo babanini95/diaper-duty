@@ -12,12 +12,12 @@ SELECT *
 FROM profiles
 LIMIT 1;
 
--- name: SetCustomReminder :one
+-- name: SetCustomReminder :exec
 UPDATE profiles
 SET diaper_interval_minutes = ?
 RETURNING *;
 
--- name: ResetCustomReminder :one
+-- name: ResetCustomReminder :exec
 UPDATE profiles
 SET diaper_interval_minutes = NULL
 RETURNING *;
