@@ -14,10 +14,10 @@ var statusCmd = &cobra.Command{
 	Use:   "status",
 	Short: "Check the current diaper change status",
 	Long:  `This command will give you info about the last time your baby change diaper, your reminder cycle, and the next change due`,
-	RunE:  commandHandler,
+	RunE:  statusCommandHandler,
 }
 
-func commandHandler(cmd *cobra.Command, args []string) error {
+func statusCommandHandler(cmd *cobra.Command, args []string) error {
 	// Fetch profileData data
 	profileData, err := appState.db.GetProfile(cmd.Context())
 	if err != nil {
