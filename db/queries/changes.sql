@@ -8,3 +8,8 @@ SELECT *
 FROM changes
 ORDER BY id DESC
 LIMIT 1;
+
+-- name: GetTodayHistory :many
+SELECT *
+FROM changes
+WHERE date(change_time) = date('now');

@@ -30,6 +30,41 @@ func (q *Queries) GetTheLastChange(ctx context.Context) (Change, error) {
 	return i, err
 }
 
+const getTodayHistory = `-- name: GetTodayHistory :many
+SELECT id, created_at, updated_at, change_time, notes
+FROM changes
+WHERE date(change_time) = date('now')
+`
+
+func (q *Queries) GetTodayHistory(ctx context.Context) ([]Change, error) {
+	rows, err := q.db.QueryContext(ctx, getTodayHistory)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Change
+	for rows.Next() {
+		var i Change
+		if err := rows.Scan(
+			&i.ID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ChangeTime,
+			&i.Notes,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const insertDiaperChange = `-- name: InsertDiaperChange :one
 INSERT INTO changes (change_time, notes)
 VALUES (?, ?)
