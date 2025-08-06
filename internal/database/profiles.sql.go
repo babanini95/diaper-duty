@@ -7,6 +7,7 @@ package database
 
 import (
 	"context"
+	"database/sql"
 )
 
 const countProfiles = `-- name: CountProfiles :one
@@ -54,6 +55,46 @@ LIMIT 1
 
 func (q *Queries) GetProfile(ctx context.Context) (Profile, error) {
 	row := q.db.QueryRowContext(ctx, getProfile)
+	var i Profile
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.BabyName,
+		&i.BabyBirthday,
+		&i.DiaperIntervalMinutes,
+	)
+	return i, err
+}
+
+const resetCustomReminder = `-- name: ResetCustomReminder :one
+UPDATE profiles
+SET diaper_interval_minutes = NULL
+RETURNING id, created_at, updated_at, baby_name, baby_birthday, diaper_interval_minutes
+`
+
+func (q *Queries) ResetCustomReminder(ctx context.Context) (Profile, error) {
+	row := q.db.QueryRowContext(ctx, resetCustomReminder)
+	var i Profile
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.BabyName,
+		&i.BabyBirthday,
+		&i.DiaperIntervalMinutes,
+	)
+	return i, err
+}
+
+const setCustomReminder = `-- name: SetCustomReminder :one
+UPDATE profiles
+SET diaper_interval_minutes = ?
+RETURNING id, created_at, updated_at, baby_name, baby_birthday, diaper_interval_minutes
+`
+
+func (q *Queries) SetCustomReminder(ctx context.Context, diaperIntervalMinutes sql.NullInt64) (Profile, error) {
+	row := q.db.QueryRowContext(ctx, setCustomReminder, diaperIntervalMinutes)
 	var i Profile
 	err := row.Scan(
 		&i.ID,
