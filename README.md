@@ -12,7 +12,7 @@ When I am entering the programming mode, I want my concentration 100% distribute
 * **CLI Framework:** [Cobra](https://github.com/spf13/cobra)
 * **Database:** SQLite
 * **Migrations:** [Goose](https://github.com/pressly/goose)
-* **Queries:** [sqlc](https://github.com/sqlc-dev/sqlc) for type-safe SQL code generation.
+* **Queries:** [sqlc](https://github.com/sqlc-dev/sqlc) for type safe SQL code generation.
 
 ## Features
 
@@ -27,7 +27,7 @@ When I am entering the programming mode, I want my concentration 100% distribute
 ### Prerequisites
 
 * Go (version 1.21 or later)
-* [Goose CLI](https://github.com/pressly/goose#install) installed (`go install github.com/pressly/goose/v3/cmd/goose@latest`)
+* [Goose CLI](https://github.com/pressly/goose?tab=readme-ov-file#install) installed (`go install github.com/pressly/goose/v3/cmd/goose@latest`)
 
 ### Installation & Setup
 
