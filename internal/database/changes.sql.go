@@ -30,14 +30,39 @@ func (q *Queries) GetTheLastChange(ctx context.Context) (Change, error) {
 	return i, err
 }
 
-const getTodayHistory = `-- name: GetTodayHistory :many
-SELECT id, created_at, updated_at, change_time, notes
-FROM changes
-WHERE date(change_time) = date('now')
+const insertDiaperChange = `-- name: InsertDiaperChange :one
+INSERT INTO changes (change_time, notes)
+VALUES (?, ?)
+RETURNING id, created_at, updated_at, change_time, notes
 `
 
-func (q *Queries) GetTodayHistory(ctx context.Context) ([]Change, error) {
-	rows, err := q.db.QueryContext(ctx, getTodayHistory)
+type InsertDiaperChangeParams struct {
+	ChangeTime string
+	Notes      sql.NullString
+}
+
+func (q *Queries) InsertDiaperChange(ctx context.Context, arg InsertDiaperChangeParams) (Change, error) {
+	row := q.db.QueryRowContext(ctx, insertDiaperChange, arg.ChangeTime, arg.Notes)
+	var i Change
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.ChangeTime,
+		&i.Notes,
+	)
+	return i, err
+}
+
+const listHistoryByDate = `-- name: ListHistoryByDate :many
+SELECT id, created_at, updated_at, change_time, notes
+FROM changes
+WHERE date(change_time) = date(?)
+ORDER BY time(change_time) DESC
+`
+
+func (q *Queries) ListHistoryByDate(ctx context.Context, date interface{}) ([]Change, error) {
+	rows, err := q.db.QueryContext(ctx, listHistoryByDate, date)
 	if err != nil {
 		return nil, err
 	}
@@ -63,28 +88,4 @@ func (q *Queries) GetTodayHistory(ctx context.Context) ([]Change, error) {
 		return nil, err
 	}
 	return items, nil
-}
-
-const insertDiaperChange = `-- name: InsertDiaperChange :one
-INSERT INTO changes (change_time, notes)
-VALUES (?, ?)
-RETURNING id, created_at, updated_at, change_time, notes
-`
-
-type InsertDiaperChangeParams struct {
-	ChangeTime string
-	Notes      sql.NullString
-}
-
-func (q *Queries) InsertDiaperChange(ctx context.Context, arg InsertDiaperChangeParams) (Change, error) {
-	row := q.db.QueryRowContext(ctx, insertDiaperChange, arg.ChangeTime, arg.Notes)
-	var i Change
-	err := row.Scan(
-		&i.ID,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.ChangeTime,
-		&i.Notes,
-	)
-	return i, err
 }

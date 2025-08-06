@@ -9,7 +9,8 @@ FROM changes
 ORDER BY id DESC
 LIMIT 1;
 
--- name: GetTodayHistory :many
+-- name: ListHistoryByDate :many
 SELECT *
 FROM changes
-WHERE date(change_time) = date('now');
+WHERE date(change_time) = date(?)
+ORDER BY time(change_time) DESC;
