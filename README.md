@@ -34,7 +34,7 @@ When I am entering the programming mode, I want my concentration 100% distribute
 1. **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/your-username/diaper-duty.git](https://github.com/your-username/diaper-duty.git)
+    git clone https://github.com/your-username/diaper-duty.git
     cd diaper-duty
     ```
 
