@@ -31,8 +31,6 @@ func CreateQueries() error {
 		return fmt.Errorf("could not create db directory: %v", err)
 	}
 
-	fmt.Println("database path: " + dbPath)
-
 	db, err := sql.Open("sqlite", "file:"+dbPath)
 	if err != nil {
 		return fmt.Errorf("queries can not be created: %v", err)
