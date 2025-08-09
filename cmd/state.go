@@ -19,6 +19,7 @@ type state struct {
 var appState *state
 
 func CreateQueries() error {
+	// Create database filepath
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return fmt.Errorf("could not get user home dir: %v", err)
@@ -37,23 +38,18 @@ func CreateQueries() error {
 		return fmt.Errorf("queries can not be created: %v", err)
 	}
 
+	// Upgrade database to the most updated migration
 	gooseProvider, err := goose.NewProvider(goose.DialectSQLite3, db, migration.Embed)
 	if err != nil {
 		return err
 	}
 
-	results, err := gooseProvider.Up(context.Background())
+	_, err = gooseProvider.Up(context.Background())
 	if err != nil {
 		return err
 	}
 
-	for _, r := range results {
-		fmt.Printf("%v %v done: %v\n", r.Source.Type, r.Source.Version, r.Duration)
-	}
-
 	appState.db = database.New(db)
-	// appState.db.CreateProfilesTable(context.Background())
-	// appState.db.CreateChangesTable(context.Background())
 	return nil
 }
 
