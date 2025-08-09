@@ -31,6 +31,14 @@ When I am entering the programming mode, I want my concentration 100% distribute
 
 ### Installation & Setup
 
+Install using Go:
+
+```bash
+go install github.com/babanini95/diaper-duty@latest
+```
+
+or build from source:
+
 1. **Clone the repository:**
 
     ```bash
@@ -44,28 +52,13 @@ When I am entering the programming mode, I want my concentration 100% distribute
     go mod tidy
     ```
 
-3. **Copy the example environment file:**
-
-    ```bash
-    cp .env.example .env
-    ```
-
-    Update the `.env` file with your desired `goose` [environment settings](https://pressly.github.io/goose/documentation/environment-variables/).
-
-4. **Run the database migrations:**
-    This command creates the `diaper-duty.db` file and sets up the necessary tables.
-
-    ```bash
-    goose up
-    ```
-
-5. **Build the application:**
+3. **Build the application:**
 
     ```bash
     go build -o diaper-duty .
     ```
 
-6. **Initialize the tracker:**
+4. **Initialize the tracker:**
     Run the interactive setup to create your baby's profile.
 
     ```bash
