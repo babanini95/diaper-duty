@@ -16,11 +16,13 @@ When I am entering the programming mode, I want my concentration 100% distribute
 
 ## Features
 
-* **Interactive Setup:** A one time `init` command to set up your baby's profile.
-* **Quick Logging:** Easily `log` a new diaper change, with options to specify the time and add notes.
-* **Instant Status:** Get an immediate `status` update showing the last change and when the next one is due.
-* **Custom Configuration:** Use the `config` command to set your own custom reminder intervals.
-* **Daily History:** View a clean `history` of all changes logged for the current day.
+The initial version of the application is a complete, standalone CLI tool with a full set of features:
+
+* **Interactive Setup:** A one time `init` command to create a profile for your baby.
+* **Smart Logging:** Quickly `log` a diaper change, with flags to specify a past time (`-t "2:30PM"`) or add notes (`-n "..."`).
+* **Instant Status:** The `status` command provides an immediate summary of the last change and calculates when the next one is due based on the baby's age.
+* **Daily History:** The `history` command gives a clean overview of all changes logged for the day.
+* **Easy Configuration:** Users can override the smart defaults and `config` a custom reminder interval.
 
 ## Getting Started
 
@@ -100,3 +102,7 @@ Once initialized, you can use the following commands:
     ```bash
     ./diaper-duty config --set-reminder 2h30m
     ```
+
+## Future Plans
+
+The next major step is to evolve the application's architecture by building a background **API server** and a simple, mobile friendly **Web UI**. This will allow non technical users (like my wife!) to use the tracker from their phone's web browser, while the CLI remains fully functional for developer users like me.
